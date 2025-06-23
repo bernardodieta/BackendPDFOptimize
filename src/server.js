@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import pdfRoutes from "./routes/pdfRoutes.js";
 import colorRoutes from "./routes/colorRoutes.js";
-import imageIa from "./routes/imageIA.js";
+//import imageIa from "./routes/imageIA.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 
@@ -11,7 +11,7 @@ const upload = multer({ dest: "uploads/" });
 
 // Configurar CORS
 server.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:4321',
   optionsSuccessStatus: 200
 }));
 
@@ -23,7 +23,7 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use("/color", colorRoutes);
 server.use("/optimize", upload.single("pdffile"), pdfRoutes); // Asegúrate de que "pdffile" sea el nombre correcto del campo
 
-server.use("/image", imageIa);
+//server.use("/image", imageIa);
 
 // Iniciar el servidor
 server.listen(8080, () => {

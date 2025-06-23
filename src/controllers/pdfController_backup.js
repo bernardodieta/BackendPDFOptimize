@@ -30,29 +30,22 @@ export const optimizePdf = async (req, res) => {
   console.log("Body completo:", req.body);
   console.log("Query completo:", req.query);
   
-  let tempOptimizedPdfPath, finalOutputPath;
-  
   try {
     const pdfPath = req.file.path;
     const { optimizedPdf, error } = await processPdf(pdfPath);
 
     if (error) {
-      // Limpiar archivo original en caso de error
-      cleanupFiles([pdfPath]);
       return res.status(500).send("Error al cargar el archivo PDF");
     }
 
-    tempOptimizedPdfPath = path.join(
+    const tempOptimizedPdfPath = path.join(
       "uploads/temp/",
       "temp-optimized-" + randomInt(500) + req.file.originalname
     );
-    fs.writeFileSync(tempOptimizedPdfPath, optimizedPdf);
-
-    finalOutputPath = path.join(
+    fs.writeFileSync(tempOptimizedPdfPath, optimizedPdf);    const finalOutputPath = path.join(
       "uploads/temp/",
       "final-optimized-" + randomInt(500) + req.file.originalname
     );
-    
     await optimizePdfWithGhostscript(
       tempOptimizedPdfPath,
       finalOutputPath,
